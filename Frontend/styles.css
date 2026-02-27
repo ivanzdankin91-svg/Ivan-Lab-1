@@ -1,0 +1,126 @@
+body {
+    font-family:Arial, sans-serif;
+    font-size: 16px;
+    background-color: #f5f5f5;
+    margin: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h2 {
+    margin-top: 20px;
+    padding-bottom: 10px;
+    color: #000000;
+}
+
+
+.main-layout {
+    display: flex;
+    gap: 25px;
+    align-items: flex-start; 
+}
+
+section {
+    background: #fff;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+.field {
+    margin-bottom: 12px;
+}
+
+.field label {
+    display: block; 
+    margin-bottom: 4px;;
+}
+
+.field input, 
+.field textarea, 
+.field select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.field input:focus {
+    border-color: #000000;
+    outline: none;
+}
+
+.invalid {
+    border-color: #c00 !important;
+}
+
+.error-text {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #c00;
+    min-height: 14px; 
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.buttons {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+}
+
+button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+#submitBtn { background-color: #28a745; color: white; }
+#cancelBtn { background-color: #5d5d55; color: white; }
+
+.edit-btn { background-color: #d6d6d6; color: #000000; padding: 5px 12px; }
+.delete-btn { background-color: #c00; color: #000000; padding: 5px 12px; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+th {
+    background-color: #eee;
+}
+
+.hidden {
+    display: none;
+}
