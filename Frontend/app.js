@@ -1,4 +1,4 @@
-const STORAGE_KEY = "lab1_events";
+const STORAGE_KEY = "lab1";
 let events = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 let editId = null;
 
@@ -123,3 +123,4 @@ function clearErrors() {
 document.getElementById("searchInput").addEventListener("input", render);
 
 document.getElementById("cancelBtn").addEventListener("click", exitEditMode);
+
