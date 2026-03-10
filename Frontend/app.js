@@ -39,7 +39,11 @@ function validate(dto) {
     if (dto.location === "") { showError("locationInput", "locationError", "Вкажіть локацію"); isValid = false; }
     if (dto.capacity < 1) { showError("capacityInput", "capacityError", "Мін. 1 місце"); isValid = false; }
     if (dto.description.length < 5) { showError("descInput", "descError", "Додайте ПІБ та опис (мін. 5 симв.)"); isValid = false; }
-    return isValid;
+  if (isValid && isDuplicate(dto)) {
+        showError("capacityInput", "capacityError", "Це місце вже зареєстровано!");
+        isValid = false;
+    }
+    return isValid; 
 }
 
 tbody.addEventListener("click", (e) => {
@@ -51,6 +55,15 @@ tbody.addEventListener("click", (e) => {
         enterEditMode(id);
     }
 });
+
+function isDuplicate(dto) {
+    return events.some(item => 
+        item.date === dto.date && 
+        item.location.toLowerCase() === dto.location.toLowerCase() &&
+        Number(item.capacity) === Number(dto.capacity) && 
+        item.id !== editId 
+    );
+}
 
 function enterEditMode(id) {
     const item = events.find(ev => ev.id === id);
@@ -108,4 +121,5 @@ function clearErrors() {
 }
 
 document.getElementById("searchInput").addEventListener("input", render);
+
 document.getElementById("cancelBtn").addEventListener("click", exitEditMode);
