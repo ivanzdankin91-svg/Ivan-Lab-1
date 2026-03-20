@@ -92,7 +92,14 @@ function saveAndRender() {
 
 function render() {
     const term = document.getElementById("searchInput").value.toLowerCase();
+    const sortType = document.getElementById("sortSelect").value;
     let filtered = events.filter(ev => ev.title.toLowerCase().includes(term));
+    if (sortType === "date") {
+        filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+    } 
+        else if (sortType === "capacity") {
+        filtered.sort((a, b) => Number(a.capacity) - Number(b.capacity));
+    }
 
     tbody.innerHTML = filtered.map(item => `
         <tr>
@@ -123,4 +130,6 @@ function clearErrors() {
 document.getElementById("searchInput").addEventListener("input", render);
 
 document.getElementById("cancelBtn").addEventListener("click", exitEditMode);
+
+document.getElementById("sortSelect").addEventListener("change", render)
 
