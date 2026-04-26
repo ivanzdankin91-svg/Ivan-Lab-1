@@ -17,31 +17,51 @@ http://localhost:8080
 
 # Лабораторна робота №2. Бекенд без БД
 
-**Варіант: Сервіс реєстрації на факультатив/подію**
+**Варіант 7: Сервіс реєстрації на факультатив/подію**
 
 ### Як запустити бекенд
 
 1. Відкрийте термінал і перейдіть у папку бекенда (або проекту):
-   cd lr2-api
+```bash
+cd lr2-api
+```
 
 2. Встановіть залежності:
-    npm install
-   
-3. Запуск сервера режимі розробки:
-   npm run dev
+```bash
+npm install
+```
+
+3. Запустіть сервер в режимі розробки:
+```bash
+npm run dev
+```
 
 Сервер запуститься за адресою: http://localhost:3000
 
-Реалізовані сутності
-Користувачі (Users) (поля: id, name, email)
-Події (Events) (поля: id, title, date, location, capacity, description)
+### Реалізовані сутності
 
-Приклади запитів (cURL)
-1.Створити нову подію (Успіх - 201 Created): curl -i -X POST http://localhost:3000/api/events -H "Content-Type: application/json" -d "{\"title\":\"Екзамен з програмування\",\"date\":\"2026-06-25\",\"location\":\"Ауд. 315\",\"capacity\":50,\"description\":\"Обов'язкова присутність\"}"
+* **Користувачі (Users)** (поля: id, name, email)
+* **Події (Events)** (поля: id, title, date, location, capacity, description)
 
-2.Помилка перевірки (400 Bad Request - пустий заголовок або коротка назва): curl -i -X POST http://localhost:3000/api/events -H "Content-Type: application/json" -d "{\"title\":\"\",\"date\":\"2026-06-25\",\"location\":\"Ауд. 315\",\"capacity\":50}"
-   
-3.Отримати список усіх подій (200 OK):curl -i http://localhost:3000/api/events
+### Приклади запитів (cURL)
 
-4.Отримати список усіх користувачів (200 OK): curl -i http://localhost:3000/api/users
+1. Створити нову подію (Успіх - 201 Created):
+```bash
+curl -i -X POST http://localhost:3000/api/events -H "Content-Type: application/json" -d "{\"title\":\"Екзамен з програмування\",\"date\":\"2026-06-25\",\"location\":\"Ауд. 315\",\"capacity\":50,\"description\":\"Обов'язкова присутність\"}"
+```
+
+2. Помилка перевірки (400 Bad Request - пустий заголовок або коротка назва):
+```bash
+curl -i -X POST http://localhost:3000/api/events -H "Content-Type: application/json" -d "{\"title\":\"\",\"date\":\"2026-06-25\",\"location\":\"Ауд. 315\",\"capacity\":50}"
+```
+
+3. Отримати список усіх подій (200 OK):
+```bash
+curl -i http://localhost:3000/api/events
+```
+
+4. Отримати список усіх користувачів (200 OK):
+```bash
+curl -i http://localhost:3000/api/users
+```
 
