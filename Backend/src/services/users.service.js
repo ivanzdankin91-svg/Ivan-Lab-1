@@ -3,61 +3,46 @@ const { ApiError } = require('../middleware/error.middleware');
 
 function requireString(value, fieldName, minLen = 1) {
   if (typeof value !== "string" || value.trim().length < minLen) {
-    return { field: fieldName, message: `${fieldName} must be a non-empty string` };
+    return { field: fieldName, message: `${fieldName} має містити мінімум ${minLen} символів` };
   }
   return null;
 }
 
 function validateUserDto(dto) {
   const errors = [];
-  
   const e1 = requireString(dto.name, "name", 2);
   if (e1) errors.push(e1);
-  
   const e2 = requireString(dto.email, "email", 5);
   if (e2) errors.push(e2);
-  
   return errors;
 }
 
 module.exports = {
-  getAllUsers: () => {
-    return usersRepo.getAll();
-  },
+  getAllUsers: async () => await usersRepo.getAll(),
   
-  getUserById: (id) => {
-    const user = usersRepo.getById(Number(id));
-    if (!user) {
-      throw new ApiError(404, "NOT_FOUND", "User not found");
-    }
+  getUserById: async (id) => {
+    const user = await usersRepo.getById(Number(id));
+    if (!user) throw new ApiError(404, "NOT_FOUND", "Користувача не знайдено");
     return user;
   },
   
-  createUser: (dto) => {
+  createUser: async (dto) => {
     const errors = validateUserDto(dto);
-    if (errors.length > 0) {
-      throw new ApiError(400, "VALIDATION_ERROR", "Invalid request body", errors);
-    }
-    return usersRepo.add(dto);
+    if (errors.length > 0) throw new ApiError(400, "VALIDATION_ERROR", "Помилка валідації", errors);
+    return await usersRepo.add(dto);
   },
   
-  updateUser: (id, dto) => {
+  updateUser: async (id, dto) => {
     const errors = validateUserDto(dto);
-    if (errors.length > 0) {
-      throw new ApiError(400, "VALIDATION_ERROR", "Invalid request body", errors);
-    }
-    const updated = usersRepo.update(Number(id), dto);
-    if (!updated) {
-      throw new ApiError(404, "NOT_FOUND", "User not found");
-    }
+    if (errors.length > 0) throw new ApiError(400, "VALIDATION_ERROR", "Помилка валідації", errors);
+    const updated = await usersRepo.update(Number(id), dto);
+    if (!updated) throw new ApiError(404, "NOT_FOUND", "Користувача не знайдено");
     return updated;
   },
   
-  deleteUser: (id) => {
-    const deleted = usersRepo.delete(Number(id));
-    if (!deleted) {
-      throw new ApiError(404, "NOT_FOUND", "User not found");
-    }
+  deleteUser: async (id) => {
+    const deleted = await usersRepo.delete(Number(id));
+    if (!deleted) throw new ApiError(404, "NOT_FOUND", "Користувача не знайдено");
     return true;
   }
 };
