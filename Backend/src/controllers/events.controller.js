@@ -1,37 +1,33 @@
 const eventsService = require('../services/events.service');
 
 module.exports = {
-  getAll: (req, res, next) => {
+  getAll: async (req, res, next) => {
     try {
-      const items = eventsService.getAllEvents();
+      const items = await eventsService.getAllEvents(req.query, req.query.sort, req.query.order);
       res.status(200).json({ items });
     } catch (err) { next(err); }
   },
-  
-  getById: (req, res, next) => {
+  getById: async (req, res, next) => {
     try {
-      const item = eventsService.getEventById(req.params.id);
+      const item = await eventsService.getEventById(req.params.id);
       res.status(200).json(item);
     } catch (err) { next(err); }
   },
-  
-  create: (req, res, next) => {
+  create: async (req, res, next) => {
     try {
-      const newItem = eventsService.createEvent(req.body);
+      const newItem = await eventsService.createEvent(req.body);
       res.status(201).json(newItem);
     } catch (err) { next(err); }
   },
-  
-  update: (req, res, next) => {
+  update: async (req, res, next) => {
     try {
-      const updatedItem = eventsService.updateEvent(req.params.id, req.body);
+      const updatedItem = await eventsService.updateEvent(req.params.id, req.body);
       res.status(200).json(updatedItem);
     } catch (err) { next(err); }
   },
-  
-  delete: (req, res, next) => {
+  delete: async (req, res, next) => {
     try {
-      eventsService.deleteEvent(req.params.id);
+      await eventsService.deleteEvent(req.params.id);
       res.status(204).send();
     } catch (err) { next(err); }
   }
