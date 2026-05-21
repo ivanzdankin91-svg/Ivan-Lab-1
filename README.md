@@ -112,7 +112,7 @@ curl -i http://localhost:3000/api/registrations
 ### 2. Складний запит (WHERE + ORDER BY + LIMIT)
 Приклад отримання подій у конкретній локації із сортуванням за датою:
 ```bash
-curl -i "http://localhost:3000/api/events?location=Ауд.315&sort=date&order=desc&limit=5"
+curl -i "http://localhost:3000/api/events?location=Aud.315&sort=date&order=desc&limit=5"
 ```
 
 ### 3. Створити нову реєстрацію (Успіх - 201 Created)
