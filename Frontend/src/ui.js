@@ -46,7 +46,6 @@ export function exitEditModeUI() {
     clearErrors();
 }
 
-// --- Рендер таблиці ---
 export function renderTable(events, term, sortType, editId = null) {
     const tbody = document.getElementById("eventsTableBody");
     let filtered = events.filter(ev => (ev.title || "").toLowerCase().includes(term));
