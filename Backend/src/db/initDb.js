@@ -33,7 +33,9 @@ async function initDb() {
             date TEXT NOT NULL,
             location TEXT NOT NULL,
             capacity INTEGER NOT NULL CHECK (capacity >= 1),
-            description TEXT
+            description TEXT,
+            ownerUserId INTEGER NOT NULL DEFAULT 1,
+            FOREIGN KEY (ownerUserId) REFERENCES Users(id) ON DELETE CASCADE
         );
     `);
 
@@ -53,13 +55,13 @@ async function initDb() {
 
     console.log("Adding seed data...");
     const now = new Date().toISOString();
+    await run(`INSERT INTO Users (name, email) VALUES ('Денис Шкарін', 'denis@gmail.com');`);
+    await run(`INSERT INTO Users (name, email) VALUES ('Тураєва Єлизавета', 'turliza@gmail.com');`);
     
-    await run(`INSERT INTO Users (name, email) VALUES ('Денис Шкарін', 'denis@example.com');`);
-    await run(`INSERT INTO Events (title, date, location, capacity, description) VALUES ('Сесія ОАП', '2026-06-20', 'Ауд. 315', 1, 'Основна сесія');`);
+    await run(`INSERT INTO Events (title, date, location, capacity, description, ownerUserId) VALUES ('Сесія ОАП', '2026-06-20', 'Ауд. 315', 1, 'Основна сесія', 1);`);
     await run(`INSERT INTO Registrations (eventId, userId, registeredAt) VALUES (1, 1, '${now}');`);
 
     await run("INSERT INTO schema_migrations (id, is_initialized) VALUES (1, 1);");
-    
     console.log("DB schema initialized successfully!");
 }
 
