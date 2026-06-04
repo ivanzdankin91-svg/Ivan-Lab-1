@@ -15,19 +15,19 @@ module.exports = {
   },
   create: async (req, res, next) => {
     try {
-      const newItem = await eventsService.createEvent(req.body);
+      const newItem = await eventsService.createEvent(req.body, req.user.id);
       res.status(201).json(newItem);
     } catch (err) { next(err); }
   },
   update: async (req, res, next) => {
     try {
-      const updatedItem = await eventsService.updateEvent(req.params.id, req.body);
+      const updatedItem = await eventsService.updateEvent(req.params.id, req.body, req.user.id);
       res.status(200).json(updatedItem);
     } catch (err) { next(err); }
   },
   delete: async (req, res, next) => {
     try {
-      await eventsService.deleteEvent(req.params.id);
+      await eventsService.deleteEvent(req.params.id, req.user.id);
       res.status(204).send();
     } catch (err) { next(err); }
   }
