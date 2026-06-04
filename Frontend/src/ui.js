@@ -1,7 +1,10 @@
+let noticeTimer = null;
+
 export function showNotice(text) {
     const el = document.getElementById("notice");
     el.innerHTML = text;
-    setTimeout(() => { el.innerHTML = ""; }, 4000);
+    if (noticeTimer) clearTimeout(noticeTimer); 
+    noticeTimer = setTimeout(() => { el.innerHTML = ""; }, 5000);
 }
 
 export function renderListStatus(status, error) {
@@ -48,6 +51,8 @@ export function exitEditModeUI() {
 
 export function renderTable(events, term, sortType, editId = null) {
     const tbody = document.getElementById("eventsTableBody");
+    tbody.innerHTML = ""; 
+    
     let filtered = events.filter(ev => (ev.title || "").toLowerCase().includes(term));
 
     if (sortType === "date") {
@@ -56,22 +61,44 @@ export function renderTable(events, term, sortType, editId = null) {
         filtered.sort((a, b) => Number(a.capacity) - Number(b.capacity));
     }
 
-    tbody.innerHTML = filtered.map(item => {
-        const isEditing = item.id === editId; 
-        const rowClass = isEditing ? 'class="editing-row"' : '';
-        
-        return `
-        <tr ${rowClass}>
-            <td>${item.id}</td>
-            <td>${item.title ?? "(без назви)"}</td>
-            <td>${item.date ?? "-"}</td>
-            <td>${item.location ?? "-"}</td>
-            <td>${item.capacity ?? 0}</td>
-            <td>${item.description ?? ""}</td>
-            <td class="actions-cell">
-                <button class="edit-btn" data-id="${item.id}" ${isEditing ? 'disabled' : ''}>Ред.</button>
-                <button class="delete-btn" data-id="${item.id}" ${isEditing ? 'disabled' : ''}>Вид.</button>
-            </td>
-        </tr>
-    `}).join("");
+    filtered.forEach(item => {
+        const isEditing = item.id === editId;
+        const tr = document.createElement("tr");
+        if (isEditing) tr.classList.add("editing-row");
+
+        const cols = [
+            item.id,
+            item.title ?? "(без назви)",
+            item.date ?? "-",
+            item.location ?? "-",
+            item.capacity ?? 0,
+            item.description ?? ""
+        ];
+
+        cols.forEach(text => {
+            const td = document.createElement("td");
+            td.textContent = text;
+            tr.appendChild(td);
+        });
+
+        const tdActions = document.createElement("td");
+        tdActions.className = "actions-cell";
+
+        const editBtn = document.createElement("button");
+        editBtn.className = "edit-btn";
+        editBtn.dataset.id = item.id;
+        editBtn.textContent = "Ред.";
+        editBtn.disabled = isEditing;
+
+        const delBtn = document.createElement("button");
+        delBtn.className = "delete-btn";
+        delBtn.dataset.id = item.id;
+        delBtn.textContent = "Вид.";
+        delBtn.disabled = isEditing;
+
+        tdActions.append(editBtn, delBtn);
+        tr.appendChild(tdActions);
+
+        tbody.appendChild(tr);
+    });
 }
