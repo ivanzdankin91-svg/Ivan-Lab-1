@@ -28,23 +28,24 @@ module.exports = {
     return event;
   },
   
-  createEvent: async (dto) => {
+  createEvent: async (dto, ownerId) => {
     const errors = validateEventDto(dto);
     if (errors.length > 0) throw new ApiError(400, "VALIDATION_ERROR", "Помилка валідації", errors);
-    return await eventsRepo.add(dto);
+    return await eventsRepo.add(dto, ownerId);
   },
   
-  updateEvent: async (id, dto) => {
+  updateEvent: async (id, dto, ownerId) => {
     const errors = validateEventDto(dto);
     if (errors.length > 0) throw new ApiError(400, "VALIDATION_ERROR", "Помилка валідації", errors);
-    const updated = await eventsRepo.update(Number(id), dto);
-    if (!updated) throw new ApiError(404, "NOT_FOUND", "Подію не знайдено");
+    
+    const updated = await eventsRepo.update(Number(id), dto, ownerId);
+    if (!updated) throw new ApiError(403, "FORBIDDEN", "Подію не знайдено або у вас немає прав на її зміну");
     return updated;
   },
   
-  deleteEvent: async (id) => {
-    const deleted = await eventsRepo.delete(Number(id));
-    if (!deleted) throw new ApiError(404, "NOT_FOUND", "Подію не знайдено");
+  deleteEvent: async (id, ownerId) => {
+    const deleted = await eventsRepo.delete(Number(id), ownerId);
+    if (!deleted) throw new ApiError(403, "FORBIDDEN", "Подію не знайдено або у вас немає прав на її видалення");
     return true;
   }
 };
