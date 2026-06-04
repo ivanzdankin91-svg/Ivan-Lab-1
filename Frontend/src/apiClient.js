@@ -1,13 +1,20 @@
 import { API_BASE_URL } from "./config.js";
+const CURRENT_USER_ID = "1"; 
 
 async function request(path, options = {}, timeoutMs = 10000) {
     const url = `${API_BASE_URL}${path}`;
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), timeoutMs);
 
+    const headers = {
+        "X-Demo-UserId": CURRENT_USER_ID,
+        ...options.headers
+    };
+
     try {
         const response = await fetch(url, {
             ...options,
+            headers,
             signal: controller.signal
         });
 
@@ -19,7 +26,7 @@ async function request(path, options = {}, timeoutMs = 10000) {
         }
 
         const rawText = await response.text();
-
+        
         if (response.ok) {
             if (!rawText) return null;
             try {
